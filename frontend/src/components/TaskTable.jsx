@@ -1,15 +1,20 @@
 import { useState } from 'react';
 
-const PRIORITY_LEVELS = { LOW: 1, MEDIUM: 2, HIGH: 3 };
 const PRIORITY_LABELS = { LOW: 'Low priority', MEDIUM: 'Medium priority', HIGH: 'High priority' };
+const PRIORITY_PATHS = {
+  HIGH: 'M2.5 8 6 4.5 9.5 8',
+  MEDIUM: 'M2.5 6 9.5 6',
+  LOW: 'M2.5 4 6 7.5 9.5 4',
+};
 
 function PriorityIndicator({ priority }) {
   const label = PRIORITY_LABELS[priority] || 'No priority';
   const level = (priority || '').toLowerCase();
+  const path = PRIORITY_PATHS[priority];
   return (
     <span className={`priority priority-${level || 'none'}`} title={label}>
       <svg className="priority-mark" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-        <path d="M6 1.2 10.8 6 6 10.8 1.2 6Z" />
+        {path ? <path d={path} /> : <circle cx="6" cy="6" r="1.5" />}
       </svg>
       <span className="visually-hidden">{label}</span>
     </span>
@@ -25,7 +30,7 @@ function MobileTaskList({ tasks, loading }) {
         const expanded = expandedId === task.id;
         const detailsId = `task-details-${task.id}`;
         return (
-          <li key={task.id} className="task-card" data-priority={task.priority}>
+          <li key={task.id} className="task-card">
             <button
               type="button"
               className="task-card-summary"
@@ -33,10 +38,12 @@ function MobileTaskList({ tasks, loading }) {
               aria-controls={detailsId}
               onClick={() => setExpandedId(expanded ? null : task.id)}
             >
-              <span className="task-card-title">{task.title}</span>
+              <span className="task-card-title">
+                <PriorityIndicator priority={task.priority} />
+                <span className="task-card-title-text">{task.title}</span>
+              </span>
               <span className="task-card-meta">
                 <span className={`status-badge ${task.status.toLowerCase()}`}>{task.status}</span>
-                <PriorityIndicator priority={task.priority} />
               </span>
               <span className="task-card-chevron" aria-hidden="true">&rsaquo;</span>
             </button>
@@ -107,26 +114,24 @@ export default function TaskTable({ tasks, loading, error, hasFilters, onRetry, 
         <caption className="visually-hidden">Task search results</caption>
         <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Title</th>
             <th scope="col">Status</th>
-            <th scope="col">Priority</th>
             <th scope="col">Assignee</th>
+            <th scope="col">ID</th>
           </tr>
         </thead>
         <tbody className={loading ? 'is-loading' : undefined}>
           {tasks.map((task) => (
-            <tr key={task.id} data-priority={task.priority}>
-              <td className="task-id">{task.id}</td>
+            <tr key={task.id}>
               <td>
-                <div className="task-title">{task.title}</div>
+                <div className="task-title">
+                  <PriorityIndicator priority={task.priority} />
+                  <span className="task-title-text">{task.title}</span>
+                </div>
                 <div className="task-desc">{task.description}</div>
               </td>
               <td>
                 <span className={`status-badge ${task.status.toLowerCase()}`}>{task.status}</span>
-              </td>
-              <td>
-                <PriorityIndicator priority={task.priority} />
               </td>
               <td>
                 {task.assignee ? (
@@ -135,6 +140,7 @@ export default function TaskTable({ tasks, loading, error, hasFilters, onRetry, 
                   '\u2014'
                 )}
               </td>
+              <td className="task-id">{task.id}</td>
             </tr>
           ))}
         </tbody>
