@@ -79,6 +79,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
   font-size: 0.8125rem;
@@ -131,6 +132,7 @@ body {
 .search-field {
   position: relative;
   flex: 1;
+  max-width: 520px;
   display: flex;
 }
 
@@ -211,10 +213,7 @@ body {
 .task-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: transparent;
 }
 
 .task-table th {
@@ -440,29 +439,43 @@ body {
   gap: 1rem;
   margin-top: 1rem;
   font-size: 0.875rem;
+  color: var(--color-muted);
 }
 
 .pagination button {
-  padding: 0.4rem 0.75rem;
+  min-height: 38px;
+  padding: 0 1rem;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .pagination button:hover:not(:disabled) {
   background: var(--color-page);
+  border-color: var(--color-border-strong);
 }
 
 .pagination button:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
+}
+
+.pagination span {
+  font-variant-numeric: tabular-nums;
 }
 
 .table-scroll {
   overflow-x: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 @media (max-width: 600px) {
@@ -472,5 +485,10 @@ body {
 
   .search-field {
     flex-basis: 100%;
+    max-width: none;
+  }
+
+  .pagination button {
+    min-height: 44px;
   }
 }
