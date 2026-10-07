@@ -45,6 +45,7 @@ export default function App() {
         <p className="subtitle">Internal task management</p>
       </header>
 
+      <main>
       <div className="controls">
         <SearchBar value={query} onChange={handleQueryChange} />
         <StatusFilter value={status} onChange={handleStatusChange} />
@@ -100,6 +101,7 @@ export default function App() {
       <p className="visually-hidden" role="status" aria-live="polite">
         {liveMessage}
       </p>
+      </main>
     </div>
   );
 }
