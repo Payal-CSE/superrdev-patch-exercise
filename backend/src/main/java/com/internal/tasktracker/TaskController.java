@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +25,10 @@ public class TaskController {
 
     @GetMapping("/api/tasks")
     public ResponseEntity<?> searchTasks(
-            @RequestParam(required = false, defaultValue = "") String q,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false, defaultValue = "1") int page,
-            @RequestParam(required = false, defaultValue = "10") int pageSize) {
+            @RequestParam(name = "q", required = false, defaultValue = "") String q,
+            @RequestParam(name = "status", required = false) String status,
+            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize) {
 
         // Validate pagination input
         if (page < 1) {
