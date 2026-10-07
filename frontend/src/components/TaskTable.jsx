@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const PRIORITY_LEVELS = { LOW: 1, MEDIUM: 2, HIGH: 3 };
 const PRIORITY_LABELS = { LOW: 'Low priority', MEDIUM: 'Medium priority', HIGH: 'High priority' };
 
@@ -23,6 +25,62 @@ function initials(name) {
     .slice(0, 2)
     .map((part) => part[0].toUpperCase())
     .join('');
+}
+
+function MobileTaskList({ tasks, loading }) {
+  const [expandedId, setExpandedId] = useState(null);
+
+  return (
+    <ul className={`mobile-task-list${loading ? ' is-loading' : ''}`} aria-busy={loading}>
+      {tasks.map((task) => {
+        const expanded = expandedId === task.id;
+        const detailsId = `task-details-${task.id}`;
+        return (
+          <li key={task.id} className="task-card" data-priority={task.priority}>
+            <button
+              type="button"
+              className="task-card-summary"
+              aria-expanded={expanded}
+              aria-controls={detailsId}
+              onClick={() => setExpandedId(expanded ? null : task.id)}
+            >
+              <span className="task-card-title">{task.title}</span>
+              <span className="task-card-meta">
+                <span className={`status-badge ${task.status.toLowerCase()}`}>{task.status}</span>
+                <PriorityIndicator priority={task.priority} />
+              </span>
+              <span className="task-card-chevron" aria-hidden="true">&rsaquo;</span>
+            </button>
+            <div id={detailsId} className="task-card-details" hidden={!expanded}>
+              <p className="task-card-description">{task.description}</p>
+              <dl className="task-card-facts">
+                <div className="task-fact">
+                  <dt>Status</dt>
+                  <dd>
+                    <span className={`status-badge ${task.status.toLowerCase()}`}>{task.status}</span>
+                  </dd>
+                </div>
+                <div className="task-fact">
+                  <dt>Priority</dt>
+                  <dd>
+                    <PriorityIndicator priority={task.priority} />
+                  </dd>
+                </div>
+                <div className="task-fact">
+                  <dt>Assignee</dt>
+                  <dd>{task.assignee || '\u2014'}</dd>
+                </div>
+                <div className="task-fact">
+                  <dt>ID</dt>
+                  <dd>{task.id}</dd>
+                </div>
+              </dl>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
 }
 
 export default function TaskTable({ tasks, loading, error, hasFilters, onRetry, onClearFilters }) {
@@ -54,6 +112,7 @@ export default function TaskTable({ tasks, loading, error, hasFilters, onRetry, 
   }
 
   return (
+    <>
     <div className="table-scroll">
       <table className="task-table" aria-busy={loading}>
         <caption className="visually-hidden">Task search results</caption>
@@ -97,5 +156,7 @@ export default function TaskTable({ tasks, loading, error, hasFilters, onRetry, 
         </tbody>
       </table>
     </div>
+    <MobileTaskList tasks={tasks} loading={loading} />
+    </>
   );
 }
