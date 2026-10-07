@@ -75,6 +75,47 @@ body {
   margin-bottom: 1rem;
 }
 
+.results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.results-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.results-filters {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link-button {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--color-primary);
+  font-size: inherit;
+  font-family: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--color-secondary);
+}
+
+.link-button:focus-visible {
+  outline: none;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 3px rgba(31, 58, 95, 0.18);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -329,9 +370,67 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+.state-title {
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.state-detail {
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+}
+
 .state-message.error {
   color: var(--color-error);
   background: var(--color-error-bg);
+}
+
+.state-message.error .state-title {
+  color: var(--color-error);
+}
+
+.button-primary,
+.button-secondary {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.button-primary {
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.button-secondary {
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.button-secondary:hover {
+  background: var(--color-page);
+}
+
+.button-primary:focus-visible,
+.button-secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(31, 58, 95, 0.18);
+}
+
+.task-table tbody.is-loading {
+  opacity: 0.5;
 }
 
 .pagination {

@@ -6,6 +6,7 @@ export function useTasks(query, status, page, pageSize) {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [retryToken, setRetryToken] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -29,7 +30,9 @@ export function useTasks(query, status, page, pageSize) {
       });
 
     return () => controller.abort();
-  }, [query, status, page, pageSize]);
+  }, [query, status, page, pageSize, retryToken]);
 
-  return { tasks, total, loading, error };
+  const retry = () => setRetryToken((token) => token + 1);
+
+  return { tasks, total, loading, error, retry };
 }

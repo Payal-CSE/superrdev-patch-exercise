@@ -4,14 +4,17 @@ import StatusFilter from './components/StatusFilter';
 import TaskTable from './components/TaskTable';
 import { useTasks } from './hooks/useTasks';
 
+const PAGE_SIZE = 10;
+
 export default function App() {
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
 
-  const { tasks, total, loading, error } = useTasks(query, status, page, 10);
+  const { tasks, total, loading, error, retry } = useTasks(query, status, page, PAGE_SIZE);
 
-  const totalPages = Math.ceil(total / 10);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const activeFilterCount = (query ? 1 : 0) + (status ? 1 : 0);
 
   const handleQueryChange = (value) => {
     setQuery(value);
@@ -22,6 +25,18 @@ export default function App() {
     setStatus(value);
     setPage(1);
   };
+
+  const clearFilters = () => {
+    setQuery('');
+    setStatus('');
+    setPage(1);
+  };
+
+  const liveMessage = error
+    ? 'Could not load tasks.'
+    : loading
+      ? 'Loading tasks.'
+      : `${total} task${total === 1 ? '' : 's'}, page ${page} of ${Math.max(totalPages, 1)}`;
 
   return (
     <div className="app">
@@ -35,7 +50,28 @@ export default function App() {
         <StatusFilter value={status} onChange={handleStatusChange} />
       </div>
 
-      <TaskTable tasks={tasks} loading={loading} error={error} />
+      <div className="results-bar">
+        <span className="results-count">
+          {loading && total === 0 ? 'Loading...' : `${total} task${total === 1 ? '' : 's'}`}
+        </span>
+        {activeFilterCount > 0 && (
+          <span className="results-filters">
+            {activeFilterCount} filter{activeFilterCount > 1 ? 's' : ''} active
+            <button type="button" className="link-button" onClick={clearFilters}>
+              Clear all
+            </button>
+          </span>
+        )}
+      </div>
+
+      <TaskTable
+        tasks={tasks}
+        loading={loading}
+        error={error}
+        hasFilters={activeFilterCount > 0}
+        onRetry={retry}
+        onClearFilters={clearFilters}
+      />
 
       {totalPages > 1 && (
         <nav className="pagination" aria-label="Task results pagination">
@@ -47,7 +83,7 @@ export default function App() {
           >
             Previous
           </button>
-          <span aria-live="polite">
+          <span>
             Page {page} of {totalPages}
           </span>
           <button
@@ -60,6 +96,10 @@ export default function App() {
           </button>
         </nav>
       )}
+
+      <p className="visually-hidden" role="status" aria-live="polite">
+        {liveMessage}
+      </p>
     </div>
   );
 }

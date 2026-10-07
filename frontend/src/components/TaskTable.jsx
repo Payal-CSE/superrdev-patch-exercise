@@ -25,22 +25,37 @@ function initials(name) {
     .join('');
 }
 
-export default function TaskTable({ tasks, loading, error }) {
-  if (loading) {
-    return <div className="state-message">Loading tasks...</div>;
-  }
-
+export default function TaskTable({ tasks, loading, error, hasFilters, onRetry, onClearFilters }) {
   if (error) {
-    return <div className="state-message error">Error: {error}</div>;
+    return (
+      <div className="state-message error" role="alert">
+        <p className="state-title">Couldn&rsquo;t load tasks.</p>
+        <p className="state-detail">Something went wrong while fetching the task list.</p>
+        <button type="button" className="button-primary" onClick={onRetry}>
+          Retry
+        </button>
+      </div>
+    );
   }
 
-  if (!tasks || tasks.length === 0) {
-    return <div className="state-message">No tasks found.</div>;
+  if (!loading && (!tasks || tasks.length === 0)) {
+    return (
+      <div className="state-message">
+        <p className="state-title">
+          {hasFilters ? 'No tasks match your current filters.' : 'No tasks found.'}
+        </p>
+        {hasFilters && (
+          <button type="button" className="button-secondary" onClick={onClearFilters}>
+            Clear filters
+          </button>
+        )}
+      </div>
+    );
   }
 
   return (
     <div className="table-scroll">
-      <table className="task-table">
+      <table className="task-table" aria-busy={loading}>
         <caption className="visually-hidden">Task search results</caption>
         <thead>
           <tr>
@@ -51,7 +66,7 @@ export default function TaskTable({ tasks, loading, error }) {
             <th scope="col">Assignee</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={loading ? 'is-loading' : undefined}>
           {tasks.map((task) => (
             <tr key={task.id} data-priority={task.priority}>
               <td className="task-id">{task.id}</td>
