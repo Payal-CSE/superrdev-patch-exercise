@@ -195,8 +195,29 @@ body {
   color: var(--color-text);
 }
 
+.task-table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+.task-table tbody tr:hover {
+  background: var(--color-page);
+}
+
+.task-table tbody tr[data-priority='HIGH'] td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+.task-table tbody tr[data-priority='MEDIUM'] td:first-child {
+  box-shadow: inset 3px 0 0 rgba(194, 112, 61, 0.45);
+}
+
 .task-table tr:last-child td {
   border-bottom: none;
+}
+
+.task-table td.task-id {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .task-title {
@@ -210,12 +231,22 @@ body {
 }
 
 .status-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0.15rem 0.5rem;
   border-radius: var(--radius-pill);
   font-size: 0.7rem;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .status-badge.open {
@@ -231,6 +262,62 @@ body {
 .status-badge.done {
   background: var(--status-done-bg);
   color: var(--status-done-fg);
+}
+
+.priority {
+  display: inline-flex;
+  align-items: center;
+}
+
+.priority-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+.priority-bar {
+  width: 4px;
+  border-radius: 1px;
+  background: var(--color-border-strong);
+}
+
+.priority-bar:nth-child(1) {
+  height: 6px;
+}
+
+.priority-bar:nth-child(2) {
+  height: 10px;
+}
+
+.priority-bar:nth-child(3) {
+  height: 14px;
+}
+
+.priority-bar.active {
+  background: var(--color-secondary);
+}
+
+.assignee {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.assignee-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-page);
+  border: 1px solid var(--color-border);
+  color: var(--color-secondary);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
 }
 
 .state-message {
