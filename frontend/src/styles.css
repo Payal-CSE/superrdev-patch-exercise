@@ -36,6 +36,24 @@ body {
   margin-bottom: 1rem;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.search-field {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+
 .search-input {
   flex: 1;
   padding: 0.5rem 0.75rem;
@@ -44,9 +62,35 @@ body {
   font-size: 0.875rem;
 }
 
-.search-input:focus {
-  outline: none;
-  border-color: #999;
+.search-field .search-input {
+  padding-right: 2rem;
+}
+
+.search-clear {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.15rem 0.35rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.search-clear:hover {
+  color: #333;
+}
+
+.search-input:focus-visible,
+.status-filter:focus-visible,
+.search-clear:focus-visible,
+.pagination button:focus-visible {
+  outline: 2px solid #1565c0;
+  outline-offset: 2px;
 }
 
 .status-filter {
@@ -161,4 +205,18 @@ body {
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+@media (max-width: 600px) {
+  .controls {
+    flex-wrap: wrap;
+  }
+
+  .search-field {
+    flex-basis: 100%;
+  }
 }

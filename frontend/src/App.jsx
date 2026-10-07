@@ -38,17 +38,27 @@ export default function App() {
       <TaskTable tasks={tasks} loading={loading} error={error} />
 
       {totalPages > 1 && (
-        <div className="pagination">
-          <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+        <nav className="pagination" aria-label="Task results pagination">
+          <button
+            type="button"
+            disabled={page <= 1}
+            aria-label="Previous page"
+            onClick={() => setPage((p) => p - 1)}
+          >
             Previous
           </button>
-          <span>
+          <span aria-live="polite">
             Page {page} of {totalPages}
           </span>
-          <button disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
+          <button
+            type="button"
+            disabled={page >= totalPages}
+            aria-label="Next page"
+            onClick={() => setPage((p) => p + 1)}
+          >
             Next
           </button>
-        </div>
+        </nav>
       )}
     </div>
   );
