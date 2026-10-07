@@ -2,13 +2,14 @@
 -- Used by the Spring Data repository layer
 --
 -- Parameters:
---   :term   — search term wrapped in wildcards, e.g. '%api%'
+--   :term   — search term wrapped in wildcards with LIKE metacharacters
+--             escaped, e.g. '%api%'; backslash is the ESCAPE character
 --   :status — status filter or NULL for all statuses
 
 SELECT *
 FROM tasks
 WHERE archived = FALSE
-  AND (LOWER(title) LIKE :term
-   OR LOWER(description) LIKE :term)
+  AND (LOWER(title) LIKE :term ESCAPE '\'
+   OR LOWER(description) LIKE :term ESCAPE '\')
   AND (:status IS NULL OR status = :status)
 ORDER BY created_at DESC;

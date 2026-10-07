@@ -40,7 +40,7 @@ public class TaskController {
 
         // Normalize query input
         String query = q == null ? "" : q.trim();
-        String searchTerm = "%" + query.toLowerCase() + "%";
+        String searchTerm = "%" + escapeLike(query.toLowerCase()) + "%";
 
         // Parse status filter
         String normalizedStatus = null;
@@ -70,5 +70,11 @@ public class TaskController {
         response.put("pageSize", pageSize);
 
         return ResponseEntity.ok(response);
+    }
+
+    private static String escapeLike(String value) {
+        return value.replace("\\", "\\\\")
+                .replace("%", "\\%")
+                .replace("_", "\\_");
     }
 }
