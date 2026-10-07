@@ -144,7 +144,7 @@ body {
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   color: var(--color-text);
-  background: var(--color-page);
+  background: var(--color-surface);
   transition: background-color 0.15s ease;
 }
 
@@ -216,7 +216,7 @@ body {
   font-size: 0.875rem;
   font-family: inherit;
   color: var(--color-text);
-  background: var(--color-page);
+  background: var(--color-surface);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
