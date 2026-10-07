@@ -309,55 +309,36 @@ body {
   align-items: center;
 }
 
-.priority-bars {
-  display: inline-flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 14px;
-}
-
-.priority-bar {
-  width: 4px;
-  border-radius: 1px;
-  background: var(--color-border-strong);
-}
-
-.priority-bar:nth-child(1) {
-  height: 6px;
-}
-
-.priority-bar:nth-child(2) {
-  height: 10px;
-}
-
-.priority-bar:nth-child(3) {
-  height: 14px;
-}
-
-.priority-bar.active {
-  background: var(--color-secondary);
-}
-
-.assignee {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.assignee-avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--color-page);
-  border: 1px solid var(--color-border);
-  color: var(--color-secondary);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+.priority-mark {
+  width: 11px;
+  height: 11px;
   flex-shrink: 0;
+}
+
+.priority-mark path {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.priority-low .priority-mark path {
+  stroke: var(--color-muted);
+}
+
+.priority-medium .priority-mark path {
+  stroke: var(--color-secondary);
+  stroke-width: 2;
+}
+
+.priority-high .priority-mark path {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+  stroke-width: 2;
+}
+
+.assignee-name {
+  color: var(--color-text);
 }
 
 .state-message {
